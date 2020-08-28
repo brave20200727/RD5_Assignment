@@ -11,13 +11,73 @@
 <body>
     <div class="container">
         <h1>帳務總覽</h1>
-        <h3>存款</h3>
+        <!-- <h3>存款</h3>
         <div class="row">
             <button class="btn btn-primary">台幣總額</button>
         </div>
         <div class="row">
             <button class="btn btn-primary">外幣總額</button>
+        </div> -->
+        <div class="card text-center">
+            <div class="card-header">
+              <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#" id="money">查詢餘額</a>
+                </li>                  
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="deposit">存款</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="withdrawal">提款</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="detail">查詢明細</a>
+                  </li>
+              </ul>
+            </div>
+            <div class="card-body">
+                <div id="activeContent">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>                    
+                </div>
+
+            </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#activeContent").hide();
+            $("#money").on("click", function() {
+                $("#money").removeClass("active");
+                $("#deposit").removeClass("active");
+                $("#withdrawal").removeClass("active");
+                $("#detail").removeClass("active");
+                $("#money").addClass("active");
+            })
+            $("#deposit").on("click", function() {
+                $("#money").removeClass("active");
+                $("#deposit").removeClass("active");
+                $("#withdrawal").removeClass("active");
+                $("#detail").removeClass("active");
+                $("#deposit").addClass("active");
+            })
+            $("#withdrawal").on("click", function() {
+                $("#money").removeClass("active");
+                $("#deposit").removeClass("active");
+                $("#withdrawal").removeClass("active");
+                $("#detail").removeClass("active");
+                $("#withdrawal").addClass("active");
+            })
+            $("#detail").on("click", function() {
+                $("#money").removeClass("active");
+                $("#deposit").removeClass("active");
+                $("#withdrawal").removeClass("active");
+                $("#detail").removeClass("active");
+                $("#detail").addClass("active");
+            })
+        })
+    </script>
 </body>
 </html>
