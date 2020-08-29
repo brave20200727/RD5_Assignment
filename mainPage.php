@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>凡谷網路銀行</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>帳務總覽</h1>
-        <form method="POST" action="Api.php">
+        <form>
+            <div class="row">
+                <div class="col-4">
+                    <h1>帳務總覽</h1>    
+                </div>
+                <div class="col-8">
+                    <button class="btn btn-outline-primary float-right">登出</button>                
+                </div>
+            </div>
             <div class="card text-center">
                 <div class="card-header" >
                     <ul class="nav nav-tabs card-header-tabs">
@@ -87,12 +94,6 @@
                                 </tr>
                                 <tr>
                                     <td>03/04/2012</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>5487</td>
-                                </tr>
-                                <tr>
-                                    <td>04/04/2012</td>
                                     <td>0</td>
                                     <td>0</td>
                                     <td>5487</td>

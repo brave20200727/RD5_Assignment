@@ -1,12 +1,23 @@
 <?php
     if(isset($_POST["loginButton"])) {
-        header("Location: mainPage.html");
+        session_start();
+        $_SESSION["userName"] = $_POST["userNameInput"];
+        $_SESSION["userPassWord"] = $_POST["userPasswordInput"];
+        header("Location: mainPage.php");
     }
     if(isset($_POST["signUpButton"])) {
-        header("Location: index.html");
+        header("Location: index.php");
     }
     if(isset($_POST["withdrawalButton"])) {
         var_dump($_POST);
-        header("Location: mainPage.html");
+        header("Location: mainPage.php");
     }
 ?>
+
+        <!--########  ##       ##     ## ######## 
+            ##     ## ##       ##     ## ##       
+            ##     ## ##       ##     ## ##       
+            ########  ##       ##     ## ######   
+            ##     ## ##       ##     ## ##       
+            ##     ## ##       ##     ## ##       
+            ########  ########  #######  ########  -->
