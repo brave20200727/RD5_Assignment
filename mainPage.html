@@ -11,73 +11,102 @@
 <body>
     <div class="container">
         <h1>帳務總覽</h1>
-        <!-- <h3>存款</h3>
-        <div class="row">
-            <button class="btn btn-primary">台幣總額</button>
-        </div>
-        <div class="row">
-            <button class="btn btn-primary">外幣總額</button>
-        </div> -->
-        <div class="card text-center">
-            <div class="card-header">
-              <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                  <a class="nav-link active" href="#" id="money">查詢餘額</a>
-                </li>                  
-                <li class="nav-item">
-                  <a class="nav-link" href="#" id="deposit">存款</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#" id="withdrawal">提款</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="detail">查詢明細</a>
-                  </li>
-              </ul>
-            </div>
-            <div class="card-body">
-                <div id="activeContent">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>                    
+        <form method="POST" action="Api.php">
+            <div class="card text-center">
+                <div class="card-header" >
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active show" href="#money" data-toggle="tab">查詢餘額</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#deposit" data-toggle="tab">存款</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#withdrawal" data-toggle="tab">提款</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#detail" data-toggle="tab">查詢明細</a>
+                        </li>
+                    </ul>
                 </div>
+                <div class="tab-content card-body">
+                    <div class="tab-pane active" id="money">
+                        <h3 class="card-title" id="moneyCardTitle">帳戶餘額</h5>
+                        <div class="card-text" id="moneyCardText">$5487</div>
+                    </div>
+                    <div class="tab-pane" id="deposit">
+                        <div class="card-text" id="depositCardText1">
+                            <p>儲存金額</p>
+                            <input type="text" name="depositNum" id="depositNum" required>
+                            <button class="btn btn-outline-primary" type="submit" id="depositButton" name="depositButton" value="1">確定</button>                            
+                        </div>
+                        <div class="card-text" id="depositCardText2">
+                            <p>快速存款</p>
+                            <button class="btn btn-outline-primary" type="button" id="fastdeposit1" onclick='$("#depositNum").prop("value", "1000");'>$1000</button> 
+                            <button class="btn btn-outline-primary" type="button" id="fastdeposit2" onclick='$("#depositNum").prop("value", "3000");'>$3000</button> 
+                            <button class="btn btn-outline-primary" type="button" id="fastdeposit3" onclick='$("#depositNum").prop("value", "5000");'>$5000</button>
+                            <button class="btn btn-outline-primary" type="button" id="fastdeposit4" onclick='$("#depositNum").prop("value", "10000");'>$10000</button>
+                        </div> 
+                    </div>
+                    <div class="tab-pane" id="withdrawal">
+                        <div class="card-text" id="withdrawalCardText1">
+                            <p>提取金額</p>
+                            <input type="text" name="withdrawalNum" id="withdrawalNum" required>
+                            <button class="btn btn-outline-primary" type="submit" id="withdrawalButton" name="withdrawalButton" value="1">確定</button>                            
+                        </div>
+                        <div class="card-text" id="withdrawalCardText2">
+                            <p>快速提款</p>
+                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal1" onclick='$("#withdrawalNum").prop("value", "1000");'>$1000</button> 
+                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal2" onclick='$("#withdrawalNum").prop("value", "3000");'>$3000</button> 
+                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal3" onclick='$("#withdrawalNum").prop("value", "5000");'>$5000</button>
+                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal4" onclick='$("#withdrawalNum").prop("value", "10000");'>$10000</button>
+                        </div> 
+                    </div>
+                    <div class="tab-pane" id="detail">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>存款</th>
+                                    <th>提款</th>
+                                    <th>餘額</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01/04/2012</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>5487</td>
+                                </tr>
+                                <tr>
+                                    <td>02/04/2012</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>5487</td>
+                                </tr>
+                                <tr>
+                                    <td>03/04/2012</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>5487</td>
+                                </tr>
+                                <tr>
+                                    <td>04/04/2012</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>5487</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>            
+        </form>
 
-            </div>
-        </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            $("#activeContent").hide();
-            $("#money").on("click", function() {
-                $("#money").removeClass("active");
-                $("#deposit").removeClass("active");
-                $("#withdrawal").removeClass("active");
-                $("#detail").removeClass("active");
-                $("#money").addClass("active");
-            })
-            $("#deposit").on("click", function() {
-                $("#money").removeClass("active");
-                $("#deposit").removeClass("active");
-                $("#withdrawal").removeClass("active");
-                $("#detail").removeClass("active");
-                $("#deposit").addClass("active");
-            })
-            $("#withdrawal").on("click", function() {
-                $("#money").removeClass("active");
-                $("#deposit").removeClass("active");
-                $("#withdrawal").removeClass("active");
-                $("#detail").removeClass("active");
-                $("#withdrawal").addClass("active");
-            })
-            $("#detail").on("click", function() {
-                $("#money").removeClass("active");
-                $("#deposit").removeClass("active");
-                $("#withdrawal").removeClass("active");
-                $("#detail").removeClass("active");
-                $("#detail").addClass("active");
-            })
-        })
     </script>
 </body>
 </html>
