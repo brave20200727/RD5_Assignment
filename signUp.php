@@ -8,12 +8,13 @@
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="node_modules/bootstrap-validator/dist/validator.min.js"></script>
 </head>
 
 <body>
   <div class="container">
     <h1>註冊資料</h1>
-    <form data-toggle="validator" role="form">
+    <form>
       <div class="row">
         <div class="form-group col-md-12">
           <label for="userName">使用者名稱</label>
@@ -21,15 +22,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4">
           <label for="userPassword">密碼</label>
           <input type="password" class="form-control" id="userPassword" name="userPassword" required>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4">
           <label for="userPasswordCheck">密碼確認</label>
-          <input type="password" class="form-control" id="userPasswordCheck"  data-match="#userPassword" data-match-error="兩次密碼不一致" required>
-          <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-          <div class="help-block with-errors" style="color: red;"></div>
+          <input type="password" class="form-control" id="userPasswordCheck" name="userPasswordCheck"required>
         </div>
       </div>
 
