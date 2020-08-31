@@ -1,17 +1,11 @@
 <?php
     session_start();
-    $dbLink = mysqli_connect("localhost", "root", "root", "RD5_Assignment", 8889) or die(mysqli_connect_error());
-    mysqli_query($dbLink, "set names utf8");
-
     if(!isset($_SESSION["name"])) {
         header("Location: index.php");
     }
-    if(isset($_SESSION["name"])) {
+    else {
         $name = $_SESSION["name"];
-        $userName = $_SESSION["userName"];
     }
-
-    mysqli_close($dbLink);
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +20,21 @@
     <script type="text/javascript" src="node_modules/bootstrap-validator/dist/validator.min.js"></script>
 </head>
 <body>
+    <div class="modal fade" id="transactionMsg" tabindex="-1" role="dialog" aria-labelledby="modalTitleOfTransactionMsg" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleOfTransactionMsg"></h5>
+            </div>
+            <div class="modal-body" id="modalBodyOfTransactionMsg">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <div class="container">
         <form>
             <div class="row">
@@ -33,7 +42,7 @@
                     <h1>帳務總覽</h1>    
                 </div>
                 <div class="col-8">
-                    <button type="button" class="btn btn-outline-primary float-right" id="logoutButton" name="logoutButton">登出</button>                
+                    <button type="button" class="btn btn-outline-primary float-right" id="logoutButton">登出</button>                
                 </div>
             </div>
             <div class="card text-center">
@@ -49,45 +58,48 @@
                             <a class="nav-link" href="#withdrawal" data-toggle="tab">提款</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#detail" data-toggle="tab">查詢明細</a>
+                            <a class="nav-link" href="#userTransaction" data-toggle="tab">查詢明細</a>
                         </li>
                     </ul>
                 </div>
                 <div class="tab-content card-body">
                     <div class="tab-pane active" id="money">
                         <h3 class="card-title" id="moneyCardTitle"><?php echo $name?>&nbsp;您好～</h5>
+                        <div class="row">
+                        </div>
                         <div class="card-text" id="card-text">帳戶餘額</div>
-                        <div class="card-text" id="moneyCardText">$5487</div>
+                        <div class="card-text" id="moneyCardText">$</div>
+
                     </div>
                     <div class="tab-pane" id="deposit">
                         <div class="card-text" id="depositCardText1">
                             <p>儲存金額</p>
-                            <input type="text" name="depositNum" id="depositNum" required>
-                            <button class="btn btn-outline-primary" type="submit" id="depositButton" name="depositButton" value="1">確定</button>                            
+                            <input type="number" id="depositNum" min="0" step="1000" required>
+                            <button class="btn btn-outline-primary" type="button" id="depositButton">確定</button>                            
                         </div>
                         <div class="card-text" id="depositCardText2">
                             <p>快速存款</p>
-                            <button class="btn btn-outline-primary" type="button" id="fastdeposit1" onclick='$("#depositNum").prop("value", "1000");'>$1000</button> 
-                            <button class="btn btn-outline-primary" type="button" id="fastdeposit2" onclick='$("#depositNum").prop("value", "3000");'>$3000</button> 
-                            <button class="btn btn-outline-primary" type="button" id="fastdeposit3" onclick='$("#depositNum").prop("value", "5000");'>$5000</button>
-                            <button class="btn btn-outline-primary" type="button" id="fastdeposit4" onclick='$("#depositNum").prop("value", "10000");'>$10000</button>
+                            <button class="btn btn-outline-primary" type="button" id="fastdeposit1" onclick='$("#depositNum").prop("value", 1000);'>$1000</button> 
+                            <button class="btn btn-outline-primary" type="button" id="fastdeposit2" onclick='$("#depositNum").prop("value", 3000);'>$3000</button> 
+                            <button class="btn btn-outline-primary" type="button" id="fastdeposit3" onclick='$("#depositNum").prop("value", 5000);'>$5000</button>
+                            <button class="btn btn-outline-primary" type="button" id="fastdeposit4" onclick='$("#depositNum").prop("value", 10000);'>$10000</button>
                         </div> 
                     </div>
                     <div class="tab-pane" id="withdrawal">
                         <div class="card-text" id="withdrawalCardText1">
                             <p>提取金額</p>
-                            <input type="text" name="withdrawalNum" id="withdrawalNum" required>
-                            <button class="btn btn-outline-primary" type="submit" id="withdrawalButton" name="withdrawalButton" value="1">確定</button>                            
+                            <input type="number" id="withdrawalNum" min="0" step="1000" required>
+                            <button class="btn btn-outline-primary" type="button" id="withdrawalButton">確定</button>                            
                         </div>
                         <div class="card-text" id="withdrawalCardText2">
                             <p>快速提款</p>
-                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal1" onclick='$("#withdrawalNum").prop("value", "1000");'>$1000</button> 
-                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal2" onclick='$("#withdrawalNum").prop("value", "3000");'>$3000</button> 
-                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal3" onclick='$("#withdrawalNum").prop("value", "5000");'>$5000</button>
-                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal4" onclick='$("#withdrawalNum").prop("value", "10000");'>$10000</button>
+                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal1" onclick='$("#withdrawalNum").prop("value", 1000);'>$1000</button> 
+                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal2" onclick='$("#withdrawalNum").prop("value", 3000);'>$3000</button> 
+                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal3" onclick='$("#withdrawalNum").prop("value", 5000);'>$5000</button>
+                            <button class="btn btn-outline-primary" type="button" id="fastwithdrawal4" onclick='$("#withdrawalNum").prop("value", 10000);'>$10000</button>
                         </div> 
                     </div>
-                    <div class="tab-pane" id="detail">
+                    <div class="tab-pane" id="userTransaction">
                         <table class="table table-hover table-bordered">
                             <thead>
                                 <tr>
@@ -97,13 +109,7 @@
                                     <th>餘額</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>01/04/2012</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>5487</td>
-                                </tr>
+                            <tbody id="userTransactionBody">
                             </tbody>
                         </table>
                     </div>
@@ -114,18 +120,88 @@
     </div>
 
     <script>
+    
         $(document).ready(function() {
+            let data2Server = {
+                loadMainPage: true
+            }
+            $.ajax({
+                type: "POST",
+                url: "Api.php",
+                data: data2Server,
+                dataType: "json"
+            }).then(function(dataFromServer) {
+                // console.log(dataFromServer);
+                for(let oneData of dataFromServer) {
+                    let oneTransaction = $("<tr></tr>").append("<td>" + oneData.transactionTime + "</tr>");
+                    oneTransaction.append("<td>" + oneData.deposit + "</tr>");
+                    oneTransaction.append("<td>" + oneData.withdrawal + "</tr>");
+                    oneTransaction.append("<td>" + oneData.totalMoney + "</tr>");
+                    $("#userTransactionBody").append(oneTransaction);
+                }
+                $("#moneyCardText").append(dataFromServer[0].totalMoney);
+            }).catch(function(e) {
+                console.log(e);
+            });
             $("#logoutButton").on("click", function() {
                 let data2Server = {
-                    logoutButton: true          
+                    logoutButton: true,  
                 };
                 $.ajax({
                     type: "POST",
                     url: "Api.php",
-                    data: data2Server,
+                    data: data2Server
                 }).then(function(dataFromServer) {
                     // console.log(dataFromServer);
                     $(location).prop('href', 'index.php');
+                }).catch(function(e) {
+                    console.log(e);
+                });
+            });
+            $("#depositButton").on("click", function() {
+                let data2Server = {
+                    depositButton: true,
+                    depositNum: $("#depositNum").prop("value")
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "Api.php",
+                    data: data2Server,
+                    dataType: "json"
+                }).then(function(dataFromServer) {
+                    // console.log(dataFromServer);
+                    if(dataFromServer["success"]) {
+                        $(location).prop('href', 'mainPage.php');
+                    }
+                    else {
+                        $("#modalTitleOfTransactionMsg").html("交易失敗");
+                        $("#modalBodyOfTransactionMsg").html("儲存金額限制：<br>1.必須大於零<br>2.不可為小數<br>3.不可為單純小數點");
+                        $("#transactionMsg").modal("show");
+                    }
+                }).catch(function(e) {
+                    console.log(e);
+                });
+            });
+            $("#withdrawalButton").on("click", function() {
+                let data2Server = {
+                    withdrawalButton: true,
+                    withdrawalNum: $("#withdrawalNum").prop("value")
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "Api.php",
+                    data: data2Server,
+                    dataType: "json"
+                }).then(function(dataFromServer) {
+                    // console.log(dataFromServer);
+                    if(dataFromServer["success"]) {
+                        $(location).prop('href', 'mainPage.php');
+                    }
+                    else {
+                        $("#modalTitleOfTransactionMsg").html("交易失敗");
+                        $("#modalBodyOfTransactionMsg").html("提取金額限制：<br>1.必須大於零<br>2.不可為小數<br>3.不可為單純小數點");
+                        $("#transactionMsg").modal("show");
+                    }
                 }).catch(function(e) {
                     console.log(e);
                 });

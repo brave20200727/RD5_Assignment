@@ -14,53 +14,37 @@
     <script type="text/javascript" src="node_modules/bootstrap-validator/dist/validator.min.js"></script>
 </head>
 <body>
-    <div class="modal fade" id="loginSuccess" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal fade" id="loginMsg" tabindex="-1" role="dialog" aria-labelledby="modalTitleOfloginMsg" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">登入成功</h5>
+            <h5 class="modal-title" id="modalTitleOfloginMsg"></h5>
             </div>
-            <div class="modal-body" id="modalBodyOfSuccess">
+            <div class="modal-body" id="modalBodyOfloginMsg">
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$(location).prop('href', 'mainPage.php');">Close</button>
+            <button type="button" class="btn btn-secondary" id="loginMsgCloseButton" data-dismiss="modal" onclick="$(location).prop('href', 'mainPage.php');">Close</button>
             </div>
         </div>
         </div>
     </div>
-    <div class="modal fade" id="loginFail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">登入失敗</h5>
-            </div>
-            <div class="modal-body">
-                帳號或密碼錯誤！
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-        </div>
-    </div>
-
     <div class="container">
         <h1>凡谷網路銀行</h1>
         <form>
             <div class="form-group">
                 <label for="userNameInput">使用者名稱:</label>
-                <input type="text" class="form-control" id="userNameInput" name="userNameInput" required>
+                <input type="text" class="form-control" id="userNameInput" required>
             </div>
             <div class="form-group">
                 <label for="userPasswordInput">密碼:</label>
-                <input type="password" class="form-control" id="userPasswordInput" name="userPasswordInput" required>
+                <input type="password" class="form-control" id="userPasswordInput" required>
             </div>
             <div class="form-check form-group">
-                <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe" disabled>
+                <input class="form-check-input" type="checkbox" id="rememberMe" disabled>
                 <label class="form-check-label" for="rememberMe">記住我</label>
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-outline-primary" id="loginButton" name="loginButton" value="1">登入</button>
+                <button type="button" class="btn btn-outline-primary" id="loginButton">登入</button>
                 <button type="button" class="btn btn-outline-primary" onclick="location.href='signUp.php'">註冊</button>            
             </div>            
         </form>
@@ -83,10 +67,16 @@
                 }).then(function(dataFromServer) {
                     // console.log(dataFromServer);
                     if(dataFromServer["success"]) {
-                        $("#modalBodyOfSuccess").append(dataFromServer["name"] + "&nbsp;歡迎光臨凡谷網頁銀行！");
-                        $("#loginSuccess").modal("show");
+                        $("#modalTitleOfloginMsg").append("登入成功");
+                        $("#modalBodyOfloginMsg").append(dataFromServer["name"] + "&nbsp;歡迎光臨凡谷網頁銀行！");
+                        $("#loginMsgCloseButton").on("click", function() {
+                            $(location).prop('href', 'mainPage.php');
+                        });
+                        $("#loginMsg").modal("show");
                     } else {
-                        $("#loginFail").modal("show");
+                        $("#modalTitleOfloginMsg").append("登入失敗");
+                        $("#modalBodyOfloginMsg").append("帳號或密碼錯誤！");
+                        $("#loginMsg").modal("show");
                     }
                 }).catch(function(e) {
                     console.log(e);

@@ -37,7 +37,7 @@
           <h5 class="modal-title" id="exampleModalLabel">註冊失敗</h5>
         </div>
         <div class="modal-body">
-          此使用者名稱已經存在了！
+          此使用者名稱已經存在或是有資料為空
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -52,47 +52,47 @@
       <div class="row">
         <div class="form-group col-md-12">
           <label for="userName">使用者名稱</label>
-          <input type="text" class="form-control" id="userName" name="userName" required>
+          <input type="text" class="form-control" id="userName" required>
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-6">
           <label for="userPassword">密碼</label>
-          <input type="password" class="form-control" id="userPassword" name="userPassword" onblur="check2Password();" required>
+          <input type="password" class="form-control" id="userPassword" onblur="check2Password();" required>
         </div>
         <div class="form-group col-md-6">
           <label for="userPasswordCheck">密碼確認</label>
-          <input type="password" class="form-control" id="userPasswordCheck" name="userPasswordCheck" onblur="check2Password();" required>
+          <input type="password" class="form-control" id="userPasswordCheck" onblur="check2Password();" required>
           <div class="invalid-feedback">兩次輸入密碼不一致</div>
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-6">
           <label for="name">名字</label>
-          <input type="text" class="form-control" name="name" id="name" required>
+          <input type="text" class="form-control" id="name" required>
         </div>
         <div class="form-group col-md-6">
           <label for="phone">電話</label>
-          <input type="text" class="form-control" name="phone" id="phone" required>
+          <input type="text" class="form-control" id="phone" required>
         </div>        
       </div>
       <div class="row">
         <div class="form-group col-md-4">
           <label for="city">縣市</label>
-          <input type="text" class="form-control" id="city" name="city" required>
+          <input type="text" class="form-control" id="city" required>
         </div>
         <div class="form-group col-md-8">
           <label for="address">地址</label>
-          <input type="text" class="form-control" id="address" name="address" required>
+          <input type="text" class="form-control" id="address" required>
         </div>
       </div>
       <div class="row">
         <div class="form-group col-md-12">
           <label for="birthday">生日</label>
-          <input type="date" class="form-control" name="birthday" id="birthday" required>
+          <input type="date" class="form-control" id="birthday" required>
         </div>
       </div>
-      <button type="button" class="btn btn-outline-primary" id="signUpButton" name="signUpButton" value="1">送出</button>
+      <button type="button" class="btn btn-outline-primary" id="signUpButton" >送出</button>
       <button type="button" class="btn btn-outline-primary" onclick="location.href='index.php'">取消</button>      
     </form>
   </div>

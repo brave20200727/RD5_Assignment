@@ -6,6 +6,7 @@
     if(isset($_POST["loginButton"])) {
         $userNameInput = $_POST["userNameInput"];
         $userPasswordInput = $_POST["userPasswordInput"];
+        // echo hash('sha256', $userPasswordInput);
         $sqlCommand = <<< multi
             SELECT * FROM users WHERE userName = '$userNameInput'
         multi;
@@ -28,7 +29,7 @@
             echo '{"success": false}';            
         }
     }
-    if(isset($_POST["signUpButton"])) {
+    else if(isset($_POST["signUpButton"])) {
         $userName = $_POST["userName"];
         $userPassword = $_POST["userPassword"];
         $name = $_POST["name"];
@@ -36,32 +37,105 @@
         $city = $_POST["city"];
         $address = $_POST["address"];
         $birthday = $_POST["birthday"];
+        if($userName != "" && $userPassword != "" && $name != "" && $phone != ""
+        && $city != "" && $address != "" && $birthday != "") {
+            $sqlCommand = <<< multi
+                SELECT * FROM users WHERE userName = '$userName'
+            multi;
+            $result = mysqli_query($dbLink, $sqlCommand);
+            $rowNum = mysqli_num_rows($result);
+            $row = mysqli_fetch_assoc($result);
+            if($rowNum == 0) {
+                $sqlCommand = <<< multi
+                    INSERT INTO users(userName, userPassword, name, phone, city, address, birthday)
+                    VALUE ('$userName', '$userPassword', '$name', '$phone', '$city', '$address', '$birthday')
+                multi;
+                mysqli_query($dbLink, $sqlCommand);
+                $sqlCommand = <<< multi
+                    INSERT INTO transactions(userId, deposit, withdrawal, totalMoney)
+                    VALUE ((SELECT userId FROM users WHERE userName = '$userName'), 0, 0, 0)
+                multi;
+                mysqli_query($dbLink, $sqlCommand);
+                echo '{"success": true}';            
+            }
+            else{
+                echo '{"success": false}';            
+            }
+        } else {
+            echo '{"success": false}';
+        }
+    }
+    else if(isset($_POST["logoutButton"])) {
+        session_destroy();
+    }
+    else if(isset($_POST["loadMainPage"])) {
+        $userName = $_SESSION["userName"];
         $sqlCommand = <<< multi
-            SELECT * FROM users WHERE userName = '$userName'
+            SELECT * FROM transactions 
+            WHERE userId = (SELECT userId FROM users WHERE userName = '$userName')
+            ORDER BY transactionTime DESC
         multi;
         $result = mysqli_query($dbLink, $sqlCommand);
-        $rowNum = mysqli_num_rows($result);
-        $row = mysqli_fetch_assoc($result);
-        if($rowNum == 0) {
-            $sqlCommand = <<< multi
-                INSERT INTO users(userName, userPassword, name, phone, city, address, birthday)
-                VALUE ('$userName', '$userPassword', '$name', '$phone', '$city', '$address', '$birthday')
-            multi;
-            mysqli_query($dbLink, $sqlCommand);
-            $sqlCommand = <<< multi
-                INSERT INTO transactions(userId, deposit, withdrawal, totalMoney)
-                VALUE ((SELECT userId FROM users WHERE userName = '$userName'), '0', '0', '0')
-            multi;
-            mysqli_query($dbLink, $sqlCommand);
-            echo '{"success": true}';            
+        while($oneRow = mysqli_fetch_assoc($result)) {
+            $returnData[] = $oneRow;
         }
-        else{
-            echo '{"success": false}';            
-        }
-
+        echo json_encode($returnData);
     }
-    if(isset($_POST["logoutButton"])) {
-        session_destroy();
+    else if(isset($_POST["depositButton"]) || isset($_POST["withdrawalButton"])) {
+        $userName = $_SESSION["userName"];
+        $sqlCommand = <<< multi
+            SELECT totalMoney FROM transactions 
+            WHERE userId = (SELECT userId FROM users WHERE userName = '$userName')
+            ORDER BY transactionTime DESC
+            Limit 0,1
+        multi;
+        $result = mysqli_query($dbLink, $sqlCommand);
+        $row = mysqli_fetch_assoc($result);
+        if(isset($_POST["depositButton"])) {
+            $depositNum = $_POST["depositNum"];
+            if($depositNum < 0) {
+                echo '{"success": false}';
+                return;
+            }
+            else if(strpos($depositNum, ".") !== false) {
+                echo '{"success": false}';
+                return;
+            }
+            else if($depositNum == "") {
+                echo '{"success": false}';
+                return;
+            }
+            else {
+                $totalMoney = $row["totalMoney"] + intval($depositNum);
+                $sqlCommand = <<< multi
+                    INSERT INTO transactions(userId, deposit, withdrawal, totalMoney)
+                    VALUE ((SELECT userId FROM users WHERE userName = '$userName'), $depositNum, 0, $totalMoney)
+                multi;                
+            }
+        } else {
+            $withdrawalNum = $_POST["withdrawalNum"];
+            if($withdrawalNum < 0) {
+                echo '{"success": false}';
+                return;
+            }
+            else if(strpos($withdrawalNum, ".") !== false) {
+                echo '{"success": false}';
+                return;
+            }
+            else if($depositNum == "") {
+                echo '{"success": false}';
+                return;
+            }
+            else {
+                $totalMoney = $row["totalMoney"] - intval($withdrawalNum);
+                $sqlCommand = <<< multi
+                    INSERT INTO transactions(userId, deposit, withdrawal, totalMoney)
+                    VALUE ((SELECT userId FROM users WHERE userName = '$userName'), 0, $withdrawalNum, $totalMoney)
+                multi;                
+            }
+        }
+        mysqli_query($dbLink, $sqlCommand);
+        echo '{"success": true}';
     }
     mysqli_close($dbLink);
 ?>
