@@ -65,11 +65,10 @@
                 <div class="tab-content card-body">
                     <div class="tab-pane active" id="money">
                         <h3 class="card-title" id="moneyCardTitle"><?php echo $name?>&nbsp;您好～</h5>
-                        <div class="row">
-                        </div>
                         <div class="card-text" id="card-text">帳戶餘額</div>
-                        <div class="card-text" id="moneyCardText">$</div>
-
+                        <div class="card-text" id="moneyCardText">$******</div>
+                        <div class="card-text" id="moneyCardText2" style="display: none;">$</div>
+                        <div class="card-text"><button type="button" class="btn btn-outline-primary" onclick="showMoney();">顯示餘額</button></div>
                     </div>
                     <div class="tab-pane" id="deposit">
                         <div class="card-text" id="depositCardText1">
@@ -120,7 +119,11 @@
     </div>
 
     <script>
-    
+        function showMoney() {
+            $("#moneyCardText").toggle();
+            $("#moneyCardText2").toggle();
+        }
+
         $(document).ready(function() {
             let data2Server = {
                 loadMainPage: true
@@ -139,7 +142,8 @@
                     oneTransaction.append("<td>" + oneData.totalMoney + "</tr>");
                     $("#userTransactionBody").append(oneTransaction);
                 }
-                $("#moneyCardText").append(dataFromServer[0].totalMoney);
+                $("#moneyCardText2").append(dataFromServer[0].totalMoney);
+
             }).catch(function(e) {
                 console.log(e);
             });
