@@ -1,3 +1,19 @@
+<?php
+    session_start();
+    $dbLink = mysqli_connect("localhost", "root", "root", "RD5_Assignment", 8889) or die(mysqli_connect_error());
+    mysqli_query($dbLink, "set names utf8");
+
+    if(!isset($_SESSION["name"])) {
+        header("Location: index.php");
+    }
+    if(isset($_SESSION["name"])) {
+        $name = $_SESSION["name"];
+        $userName = $_SESSION["userName"];
+    }
+
+    mysqli_close($dbLink);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +33,7 @@
                     <h1>帳務總覽</h1>    
                 </div>
                 <div class="col-8">
-                    <button class="btn btn-outline-primary float-right">登出</button>                
+                    <button type="button" class="btn btn-outline-primary float-right" id="logoutButton" name="logoutButton">登出</button>                
                 </div>
             </div>
             <div class="card text-center">
@@ -39,7 +55,8 @@
                 </div>
                 <div class="tab-content card-body">
                     <div class="tab-pane active" id="money">
-                        <h3 class="card-title" id="moneyCardTitle">帳戶餘額</h5>
+                        <h3 class="card-title" id="moneyCardTitle"><?php echo $name?>&nbsp;您好～</h5>
+                        <div class="card-text" id="card-text">帳戶餘額</div>
                         <div class="card-text" id="moneyCardText">$5487</div>
                     </div>
                     <div class="tab-pane" id="deposit">
@@ -87,18 +104,6 @@
                                     <td>0</td>
                                     <td>5487</td>
                                 </tr>
-                                <tr>
-                                    <td>02/04/2012</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>5487</td>
-                                </tr>
-                                <tr>
-                                    <td>03/04/2012</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>5487</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -109,6 +114,23 @@
     </div>
 
     <script>
+        $(document).ready(function() {
+            $("#logoutButton").on("click", function() {
+                let data2Server = {
+                    logoutButton: true          
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "Api.php",
+                    data: data2Server,
+                }).then(function(dataFromServer) {
+                    // console.log(dataFromServer);
+                    $(location).prop('href', 'index.php');
+                }).catch(function(e) {
+                    console.log(e);
+                });
+            });
+        });
     </script>
 </body>
 </html>

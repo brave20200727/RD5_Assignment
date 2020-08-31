@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +15,37 @@
 </head>
 
 <body>
+  <div class="modal fade" id="signUpSuccess" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">註冊成功</h5>
+        </div>
+        <div class="modal-body">
+          恭喜您註冊成功！
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$(location).prop('href', 'index.php');">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="signUpFail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">註冊失敗</h5>
+        </div>
+        <div class="modal-body">
+          此使用者名稱已經存在了！
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <h1>註冊資料</h1>
     <form>
@@ -32,18 +66,16 @@
           <div class="invalid-feedback">兩次輸入密碼不一致</div>
         </div>
       </div>
-
       <div class="row">
         <div class="form-group col-md-6">
           <label for="name">名字</label>
           <input type="text" class="form-control" name="name" id="name" required>
         </div>
         <div class="form-group col-md-6">
-          <label for="userPhone">電話</label>
-          <input type="text" class="form-control" name="userPhone" id="userPhone" required>
+          <label for="phone">電話</label>
+          <input type="text" class="form-control" name="phone" id="phone" required>
         </div>        
       </div>
-
       <div class="row">
         <div class="form-group col-md-4">
           <label for="city">縣市</label>
@@ -56,11 +88,11 @@
       </div>
       <div class="row">
         <div class="form-group col-md-12">
-          <label for="userBirthday">生日</label>
-          <input type="date" class="form-control" name="userBirthday" id="userBirthday" required>
+          <label for="birthday">生日</label>
+          <input type="date" class="form-control" name="birthday" id="birthday" required>
         </div>
       </div>
-      <button type="button" class="btn btn-outline-primary" id="signUpButton" name="signUpButton" value="1" >送出</button>
+      <button type="button" class="btn btn-outline-primary" id="signUpButton" name="signUpButton" value="1">送出</button>
       <button type="button" class="btn btn-outline-primary" onclick="location.href='index.php'">取消</button>      
     </form>
   </div>
@@ -83,6 +115,33 @@
   }
 
   $(document).ready(function() {
+    $("#signUpButton").on("click", function() {
+      let data2Server = {
+        signUpButton: true,
+        userName: $("#userName").prop("value"),
+        userPassword: $("#userPassword").prop("value"),
+        name: $("#name").prop("value"),
+        phone: $("#phone").prop("value"),
+        city: $("#city").prop("value"),
+        address: $("#address").prop("value"),
+        birthday: $("#birthday").prop("value"),
+      }
+      $.ajax({
+        type: "POST",
+        url: "Api.php",
+        data: data2Server,
+        dataType: "json"
+      }).then(function(dataFromServer) {
+        // console.log(dataFromServer);
+        if(dataFromServer["success"]) {
+          $("#signUpSuccess").modal("show");
+        } else {
+          $("#signUpFail").modal("show");
+        }
+      }).catch(function(e) {
+        console.log(e);
+      });
+    })
   });
 </script>
 
