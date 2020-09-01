@@ -19,7 +19,6 @@
  
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="node_modules/bootstrap-validator/dist/validator.min.js"></script>
     <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
