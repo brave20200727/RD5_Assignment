@@ -15,12 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>凡谷網路銀行</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="node_modules/datatables.net-dt/css/jquery.dataTables.min.css">
  
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="node_modules/bootstrap-validator/dist/validator.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
     <div class="modal fade" id="transactionMsg" tabindex="-1" role="dialog" aria-labelledby="modalTitleOfTransactionMsg" aria-hidden="true" data-backdrop="static">
