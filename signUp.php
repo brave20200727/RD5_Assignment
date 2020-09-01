@@ -46,6 +46,21 @@
     </div>
   </div>
 
+  <div class="modal fade" id="signUpMsg" tabindex="-1" role="dialog" aria-labelledby="modalTitleOfsignUpMsg" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleOfsignUpMsg"></h5>
+            </div>
+            <div class="modal-body" id="modalBodyOfsignUpMsg">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="signUpMsgCloseButton" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
   <div class="container">
     <h1>註冊資料</h1>
     <form>
@@ -133,10 +148,21 @@
         dataType: "json"
       }).then(function(dataFromServer) {
         // console.log(dataFromServer);
-        if(dataFromServer["success"]) {
-          $("#signUpSuccess").modal("show");
+        if(dataFromServer["errorCode"] == 1) {
+          $("#modalTitleOfsignUpMsg").html("註冊失敗");
+          $("#modalBodyOfsignUpMsg").html("有資料為空！");
+          $("#signUpMsg").modal("show");
+        } else if(dataFromServer["errorCode"] == 2) {
+          $("#modalTitleOfsignUpMsg").html("註冊失敗");
+          $("#modalBodyOfsignUpMsg").html("使用者名稱已存在！");
+          $("#signUpMsg").modal("show");
         } else {
-          $("#signUpFail").modal("show");
+          $("#modalTitleOfsignUpMsg").html("註冊成功");
+          $("#modalBodyOfsignUpMsg").html("恭喜您註冊成功<br>按下關閉轉跳至登入頁面！");
+          $("#signUpMsgCloseButton").on("click", function() {
+            $(location).prop('href', 'mainPage.php');
+          });
+          $("#signUpMsg").modal("show");
         }
       }).catch(function(e) {
         console.log(e);

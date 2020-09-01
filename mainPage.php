@@ -15,9 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>凡谷網路銀行</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+ 
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="node_modules/bootstrap-validator/dist/validator.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
     <div class="modal fade" id="transactionMsg" tabindex="-1" role="dialog" aria-labelledby="modalTitleOfTransactionMsg" aria-hidden="true" data-backdrop="static">
@@ -99,7 +102,7 @@
                         </div> 
                     </div>
                     <div class="tab-pane" id="userTransaction">
-                        <table class="table table-hover table-bordered">
+                        <table class="table table-hover table-bordered" id="userTransactionTable">
                             <thead>
                                 <tr>
                                     <th>日期</th>
@@ -143,7 +146,8 @@
                     $("#userTransactionBody").append(oneTransaction);
                 }
                 $("#moneyCardText2").append(dataFromServer[0].totalMoney);
-
+                $('#userTransactionTable').DataTable();
+                $('.dataTables_length').addClass('bs-select');
             }).catch(function(e) {
                 console.log(e);
             });
@@ -174,13 +178,20 @@
                     dataType: "json"
                 }).then(function(dataFromServer) {
                     // console.log(dataFromServer);
-                    if(dataFromServer["success"]) {
-                        $(location).prop('href', 'mainPage.php');
-                    }
-                    else {
+                    if(dataFromServer["errorCode"] == 1) {
                         $("#modalTitleOfTransactionMsg").html("交易失敗");
-                        $("#modalBodyOfTransactionMsg").html("儲存金額限制：<br>1.必須大於零<br>2.不可為小數<br>3.不可為單純小數點");
+                        $("#modalBodyOfTransactionMsg").html("儲存金額必須大於零！");
                         $("#transactionMsg").modal("show");
+                    } else if(dataFromServer["errorCode"] == 2) {
+                        $("#modalTitleOfTransactionMsg").html("交易失敗");
+                        $("#modalBodyOfTransactionMsg").html("儲存金額不可為小數！");
+                        $("#transactionMsg").modal("show");
+                    } else if(dataFromServer["errorCode"] == 3) {
+                        $("#modalTitleOfTransactionMsg").html("交易失敗");
+                        $("#modalBodyOfTransactionMsg").html("儲存金額不可為空或單純小數點！");
+                        $("#transactionMsg").modal("show");
+                    } else {
+                        $(location).prop('href', 'mainPage.php');
                     }
                 }).catch(function(e) {
                     console.log(e);
@@ -197,14 +208,25 @@
                     data: data2Server,
                     dataType: "json"
                 }).then(function(dataFromServer) {
-                    // console.log(dataFromServer);
-                    if(dataFromServer["success"]) {
-                        $(location).prop('href', 'mainPage.php');
-                    }
-                    else {
+                    // // console.log(dataFromServer);
+                    if(dataFromServer["errorCode"] == 1) {
                         $("#modalTitleOfTransactionMsg").html("交易失敗");
-                        $("#modalBodyOfTransactionMsg").html("提取金額限制：<br>1.必須大於零<br>2.不可為小數<br>3.不可為單純小數點");
+                        $("#modalBodyOfTransactionMsg").html("提取金額必須大於零！");
                         $("#transactionMsg").modal("show");
+                    } else if(dataFromServer["errorCode"] == 2) {
+                        $("#modalTitleOfTransactionMsg").html("交易失敗");
+                        $("#modalBodyOfTransactionMsg").html("提取金額不可為小數！");
+                        $("#transactionMsg").modal("show");
+                    } else if(dataFromServer["errorCode"] == 3) {
+                        $("#modalTitleOfTransactionMsg").html("交易失敗");
+                        $("#modalBodyOfTransactionMsg").html("提取金額不可為空或單純小數點！");
+                        $("#transactionMsg").modal("show");
+                    } else if(dataFromServer["errorCode"] == 4) {
+                        $("#modalTitleOfTransactionMsg").html("交易失敗");
+                        $("#modalBodyOfTransactionMsg").html("存款小於提取金額！");
+                        $("#transactionMsg").modal("show");
+                    } else {
+                        $(location).prop('href', 'mainPage.php');
                     }
                 }).catch(function(e) {
                     console.log(e);

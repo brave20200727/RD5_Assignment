@@ -5,8 +5,8 @@
 
     if(isset($_POST["loginButton"])) {
         $userNameInput = $_POST["userNameInput"];
-        $userPasswordInput = $_POST["userPasswordInput"];
-        // echo hash('sha256', $userPasswordInput);
+        // $userPasswordInput = $_POST["userPasswordInput"];
+        $userPasswordInput = hash('sha256', $_POST["userPasswordInput"]);
         $sqlCommand = <<< multi
             SELECT * FROM users WHERE userName = '$userNameInput'
         multi;
@@ -31,7 +31,8 @@
     }
     else if(isset($_POST["signUpButton"])) {
         $userName = $_POST["userName"];
-        $userPassword = $_POST["userPassword"];
+        // $userPassword = $_POST["userPassword"];
+        $userPassword = hash('sha256', $_POST["userPassword"]);
         $name = $_POST["name"];
         $phone = $_POST["phone"];
         $city = $_POST["city"];
@@ -56,13 +57,13 @@
                     VALUE ((SELECT userId FROM users WHERE userName = '$userName'), 0, 0, 0)
                 multi;
                 mysqli_query($dbLink, $sqlCommand);
-                echo '{"success": true}';            
+                echo '{"errorCode": 666}';            
             }
             else{
-                echo '{"success": false}';            
+                echo '{"errorCode": 2}';            
             }
         } else {
-            echo '{"success": false}';
+            echo '{"errorCode": 1}';
         }
     }
     else if(isset($_POST["logoutButton"])) {
@@ -94,15 +95,15 @@
         if(isset($_POST["depositButton"])) {
             $depositNum = $_POST["depositNum"];
             if($depositNum < 0) {
-                echo '{"success": false}';
+                echo '{"errorCode": 1}';
                 return;
             }
             else if(strpos($depositNum, ".") !== false) {
-                echo '{"success": false}';
+                echo '{"errorCode": 2}';
                 return;
             }
             else if($depositNum == "") {
-                echo '{"success": false}';
+                echo '{"errorCode": 3}';
                 return;
             }
             else {
@@ -115,27 +116,33 @@
         } else {
             $withdrawalNum = $_POST["withdrawalNum"];
             if($withdrawalNum < 0) {
-                echo '{"success": false}';
+                echo '{"errorCode": 1}';
                 return;
             }
             else if(strpos($withdrawalNum, ".") !== false) {
-                echo '{"success": false}';
+                echo '{"errorCode": 2}';
                 return;
             }
-            else if($depositNum == "") {
-                echo '{"success": false}';
+            else if($withdrawalNum == "") {
+                echo '{"errorCode": 3}';
                 return;
             }
             else {
-                $totalMoney = $row["totalMoney"] - intval($withdrawalNum);
-                $sqlCommand = <<< multi
-                    INSERT INTO transactions(userId, deposit, withdrawal, totalMoney)
-                    VALUE ((SELECT userId FROM users WHERE userName = '$userName'), 0, $withdrawalNum, $totalMoney)
-                multi;                
+                if($row["totalMoney"] < intval($withdrawalNum)) {
+                    echo '{"errorCode": 4}';
+                    return;
+                }
+                else {
+                    $totalMoney = $row["totalMoney"] - intval($withdrawalNum);
+                    $sqlCommand = <<< multi
+                        INSERT INTO transactions(userId, deposit, withdrawal, totalMoney)
+                        VALUE ((SELECT userId FROM users WHERE userName = '$userName'), 0, $withdrawalNum, $totalMoney)
+                    multi;                     
+                }
             }
         }
         mysqli_query($dbLink, $sqlCommand);
-        echo '{"success": true}';
+        echo '{"errorCode": 666}';
     }
     mysqli_close($dbLink);
 ?>
