@@ -15,37 +15,6 @@
 </head>
 
 <body>
-  <div class="modal fade" id="signUpSuccess" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">註冊成功</h5>
-        </div>
-        <div class="modal-body">
-          恭喜您註冊成功！
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$(location).prop('href', 'index.php');">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="signUpFail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">註冊失敗</h5>
-        </div>
-        <div class="modal-body">
-          此使用者名稱已經存在或是有資料為空
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="modal fade" id="signUpMsg" tabindex="-1" role="dialog" aria-labelledby="modalTitleOfsignUpMsg" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
