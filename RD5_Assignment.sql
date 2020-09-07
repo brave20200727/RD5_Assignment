@@ -16,6 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `RD5_Assignment`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `RD5_Assignment` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `RD5_Assignment`;
+
+--
 -- Table structure for table `transactions`
 --
 
@@ -83,4 +91,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-04 18:06:16
+-- Dump completed on 2020-09-07 18:03:03
